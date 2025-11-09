@@ -1,0 +1,13 @@
+name: 'NPC'
+description: 'Un plugin para manejar NPCs en tu servidor.'
+api: '2.0.0'
+version: 'dev'
+main: 'dev\xchillz\npc\NPCPlugin'
+author: 'xChillz'
+permissions:
+  npc.command:
+    description: 'Permite usar el comando /npc.'
+    default: op
+  npc.see.id:
+    description: 'Permite ver los IDs de los NPCs en el nametag.'
+    default: op

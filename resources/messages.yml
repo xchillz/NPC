@@ -1,0 +1,38 @@
+unknown.sender: '§cNecesitas ejecutar este comando en el juego o en la consola.'
+command.usage: '§cNecesitas usar: §f{usage}'
+run.only.player: '§cSolo los jugadores pueden ejecutar este comando.'
+npc.add.usage: '§cNecesitas usar: §f/npc add <invisible|visible> <nombre>'
+npc.add.success: '§aNPC creado con éxito con el id: §f{id}§a.'
+npc.remove.usage: '§cNecesitas usar: §f/npc remove <id>'
+npc.remove.success: '§aNPC con id §f{id}§a eliminado con éxito.'
+npc.remove.notfound: '§cNo se encontró ningún NPC con el id: §f{id}§c.'
+npc.add.line.usage: '§cNecesitas usar: §f/npc addline <id> <texto>'
+npc.add.line.success: '§aLínea añadida con éxito al NPC con id: §f{id}§a.'
+npc.remove.line.usage: '§cNecesitas usar: §f/npc removeline <id> <número de línea>'
+npc.remove.line.success: '§aLínea §f{line}§a eliminada con éxito del NPC con id: §f{id}§a.'
+npc.remove.line.invalid: '§cEl NPC con id §f{id}§c no tiene una línea §f{line}§c.'
+npc.edit.line.usage: '§cNecesitas usar: §f/npc editline <id> <número de línea> <nuevo texto>'
+npc.edit.line.invalid: '§cEl NPC con id §f{id}§c no tiene una línea §f{line}§c.'
+npc.edit.line.success: '§aLínea §f{line}§a editada con éxito en el NPC con id: §f{id}§a.'
+npc.edit.skin.usage: '§cNecesitas usar: §f/npc editskin <id>'
+npc.edit.skin.success: '§aSkin del NPC con id §f{id}§a actualizada con éxito.'
+npc.set.visible.usage: '§cNecesitas usar: §f/npc visible <id>'
+npc.set.visible.success: '§aVisibilidad del NPC con id §f{id}§a actualizada con éxito.'
+npc.set.invisible.usage: '§cNecesitas usar: §f/npc invisible <id>'
+npc.add.command.usage: '§cNecesitas usar: §f/npc addcommand <id> <server|player> <comando>'
+npc.add.command.success: '§aComando §7({command}) §aañadido con éxito al NPC con id: §f{id}§a.'
+npc.remove.command.usage: '§cNecesitas usar: §f/npc removecommand <id> <server|player>'
+npc.remove.command.success: '§aComando §7{command} §aeliminado con éxito del NPC con id: §f{id}§a.'
+npc.remove.command.nocommand: '§cEl NPC con id §f{id}§c no tiene un comando del tipo §7{type}§c.'
+command.npc.help: |
+  §e--- §6NPC Command Help §e---
+  §f/npc add <invisible|visible> <nombre> §7- §eCrea un nuevo NPC.
+  §f/npc remove <id> §7- §eElimina un NPC existente.
+  §f/npc addline <id> <texto> §7- §eAñade una línea de texto a un NPC.
+  §f/npc removeline <id> <número de línea> §7- §eElimina una línea de texto de un NPC.
+  §f/npc editline <id> <número de línea> <nuevo texto> §7- §eEdita una línea de texto de un NPC.
+  §f/npc editskin <id> §7- §eCambia la skin de un NPC.
+  §f/npc visible <id> §7- §eHace visible a un NPC.
+  §f/npc invisible <id> §7- §eHace invisible a un NPC.
+  §f/npc addcommand <id> <server|player> <comando> §7- §eAñade un comando a un NPC.
+  §f/npc removecommand <id> <server|player> §7- §eElimina un comando de un NPC.
