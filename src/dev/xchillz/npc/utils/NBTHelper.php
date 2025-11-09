@@ -87,6 +87,7 @@ final class NBTHelper {
         $compoundTag->offsetSet(
             'ServerCommands',
             self::getArrayAsListStringTag('ServerCommands', $serverCommands));
+        $compoundTag->offsetSet('Worlds', new ListTag('Worlds', []));
         $compoundTag->offsetSet('Invisible', new StringTag('Invisible', $invisible ? 'true' : 'false'));
         return $compoundTag;
     }

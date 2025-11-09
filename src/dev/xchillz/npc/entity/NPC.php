@@ -41,6 +41,7 @@ final class NPC extends Human {
         }
 
         $rawName = str_replace('{server_count}', (string)count($this->server->getOnlinePlayers()), $rawName);
+        $rawName = str_replace('{world_count}', (string)$this->getWorldPlayersCount(), $rawName);
         $rawName = str_replace('{time}', date('H:i:s'), $rawName);
         $this->setNameTag($rawName);
         return true;
@@ -410,6 +411,74 @@ final class NPC extends Human {
         }
 
         return "";
+    }
+
+    public function addWorld(string $worldName) {
+        $worldsTag = $this->namedtag->offsetGet('Worlds');
+        if (!($worldsTag instanceof ListTag)) {
+            $worldsTag = new ListTag('Worlds', []);
+        }
+
+        $rawWorlds = $worldsTag->getValue();
+        foreach ($rawWorlds as $worldTag) {
+            if (!($worldTag instanceof StringTag)) {
+                continue;
+            }
+
+            if (strval($worldTag) === $worldName) {
+                return;
+            }
+        }
+
+        $rawWorlds[] = new StringTag('', $worldName);
+        $this->namedtag->offsetSet('Worlds', new ListTag('Worlds', $rawWorlds));
+    }
+
+    public function removeWorld(string $worldName): bool {
+        $worldsTag = $this->namedtag->offsetGet('Worlds');
+        if (!($worldsTag instanceof ListTag)) {
+            return false;
+        }
+
+        $rawWorlds = $worldsTag->getValue();
+        foreach ($rawWorlds as $i => $worldTag) {
+            if (!($worldTag instanceof StringTag)) {
+                continue;
+            }
+
+            if (strval($worldTag) === $worldName) {
+                unset($rawWorlds[$i]);
+                $this->namedtag->offsetSet('Worlds', new ListTag('Worlds', $rawWorlds));
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getWorldPlayersCount(): int {
+        $worldsTag = $this->namedtag->offsetGet('Worlds');
+        if (!($worldsTag instanceof ListTag)) {
+            return 0;
+        }
+
+        $count = 0;
+        foreach ($worldsTag as $worldTag) {
+            if (!($worldTag instanceof StringTag)) {
+                continue;
+            }
+
+            Server::getInstance()->loadLevel(strval($worldTag));
+            $world = Server::getInstance()->getLevelByName(strval($worldTag));
+            if ($world === null) {
+                $this->removeWorld(strval($worldTag));
+                continue;
+            }
+
+            $count += count($world->getPlayers());
+        }
+
+        return $count;
     }
 
     private function adjustTextLines() {

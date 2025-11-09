@@ -19,6 +19,11 @@ final class NPCLine extends Human {
     private $npcOwner;
 
     public function onUpdate($tick) {
+        if ($this->npcOwner === null) {
+            $this->close();
+            return false;
+        }
+        
         try {
             $rawName = $this->getRawName();
         } catch (\RuntimeException $exception) {
@@ -27,6 +32,7 @@ final class NPCLine extends Human {
         }
 
         $rawName = str_replace('{server_count}', (string)count($this->server->getOnlinePlayers()), $rawName);
+        $rawName = str_replace('{world_count}', (string)$this->npcOwner->getWorldPlayersCount(), $rawName);
         $rawName = str_replace('{time}', date('H:i:s'), $rawName);
         $this->setNameTag($rawName);
         return true;

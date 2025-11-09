@@ -25,7 +25,7 @@ npc.remove.command.usage: '§cNecesitas usar: §f/npc removecommand <id> <server
 npc.remove.command.success: '§aComando §7{command} §aeliminado con éxito del NPC con id: §f{id}§a.'
 npc.remove.command.nocommand: '§cEl NPC con id §f{id}§c no tiene un comando del tipo §7{type}§c.'
 command.npc.help: |
-  §e--- §6NPC Command Help §e---
+  §e--- §6Comandos de ayuda de NPC §e---
   §f/npc add <invisible|visible> <nombre> §7- §eCrea un nuevo NPC.
   §f/npc remove <id> §7- §eElimina un NPC existente.
   §f/npc addline <id> <texto> §7- §eAñade una línea de texto a un NPC.
@@ -36,3 +36,10 @@ command.npc.help: |
   §f/npc invisible <id> §7- §eHace invisible a un NPC.
   §f/npc addcommand <id> <server|player> <comando> §7- §eAñade un comando a un NPC.
   §f/npc removecommand <id> <server|player> §7- §eElimina un comando de un NPC.
+  §f/npc addworld <id> <nombre del mundo> §7- §eAñade un mundo al NPC.
+  §f/npc removeworld <id> <nombre del mundo> §7- §eElimina un mundo del NPC.
+npc.add.world.usage: '§cNecesitas usar: §f/npc addworld <id> <nombre del mundo>'
+npc.world.notfound: '§cNo se encontró ningún mundo con el nombre: §f{world}§c.'
+npc.add.world.success: '§aEl mundo §f{world}§a ha sido añadido con éxito al NPC con id: §f{id}§a.'
+npc.remove.world.usage: '§cNecesitas usar: §f/npc removeworld <id> <nombre del mundo>'
+npc.remove.world.success: '§aEl mundo §f{world}§a ha sido eliminado con éxito del NPC con id: §f{id}'

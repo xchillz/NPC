@@ -8,12 +8,14 @@ use dev\xchillz\npc\command\Command;
 use dev\xchillz\npc\command\impl\argument\NpcAddArgument;
 use dev\xchillz\npc\command\impl\argument\NpcAddCommandArgument;
 use dev\xchillz\npc\command\impl\argument\NpcAddLineArgument;
+use dev\xchillz\npc\command\impl\argument\NpcAddWorldArgument;
 use dev\xchillz\npc\command\impl\argument\NpcEditLineArgument;
 use dev\xchillz\npc\command\impl\argument\NpcHelpArgument;
 use dev\xchillz\npc\command\impl\argument\NpcInvisibleArgument;
 use dev\xchillz\npc\command\impl\argument\NpcRemoveArgument;
 use dev\xchillz\npc\command\impl\argument\NpcRemoveCommandArgument;
 use dev\xchillz\npc\command\impl\argument\NpcRemoveLineArgument;
+use dev\xchillz\npc\command\impl\argument\NpcRemoveWorldArgument;
 use dev\xchillz\npc\command\impl\argument\NpcSkinArgument;
 use dev\xchillz\npc\command\impl\argument\NpcVisibleArgument;
 use dev\xchillz\npc\config\MessagesConfig;
@@ -79,6 +81,18 @@ final class NpcCommand extends Command {
             'help', 
             'ajuda',
             '?'
+        ], $messagesConfig));
+        $this->registerArgument(new NpcAddWorldArgument('addworld', [
+            'añadirmundo',
+            'addworld',
+            'adicionarmundo'
+        ], $messagesConfig));
+        $this->registerArgument(new NpcRemoveWorldArgument('removeworld', [
+            'eliminarmundo',
+            'removeworld',
+            'deletarmundo',
+            'delworld',
+            'deleteworld'
         ], $messagesConfig));
     }
 
