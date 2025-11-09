@@ -64,6 +64,7 @@ final class NBTHelper {
     ): CompoundTag {
         $compoundTag = new CompoundTag();
         $compoundTag->offsetSet('CustomName', new StringTag('CustomName', $name));
+        $compoundTag->offsetSet('RawName', new StringTag('RawName', $name));
         $compoundTag->offsetSet('Health', new FloatTag('Health', 1.0));
         $compoundTag->offsetSet('Inventory', new ListTag('Inventory', []));
         $compoundTag->offsetSet('Pos', new ListTag('Pos', [

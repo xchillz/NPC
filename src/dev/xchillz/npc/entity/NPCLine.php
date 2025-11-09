@@ -18,6 +18,28 @@ final class NPCLine extends Human {
     /** @var NPC */
     private $npcOwner;
 
+    public function onUpdate($tick) {
+        try {
+            $rawName = $this->getRawName();
+        } catch (\RuntimeException $exception) {
+            $this->server->getLogger()->logException($exception, $exception->getTrace());
+            return false;
+        }
+
+        $rawName = str_replace('{server_count}', (string)count($this->server->getOnlinePlayers()), $rawName);
+        $rawName = str_replace('{time}', date('H:i:s'), $rawName);
+        $this->setNameTag($rawName);
+        return true;
+    }
+
+    public function getRawName(): string {
+        if (!$this->namedtag->offsetExists('RawName')) {
+            $this->close();
+            throw new \RuntimeException("NPC is missing 'RawName' NBT tag and has been removed.");            
+        }
+        return strval($this->namedtag->offsetGet('RawName'));
+    }
+
     public function saveNBT() {}
 
     protected function initEntity() {

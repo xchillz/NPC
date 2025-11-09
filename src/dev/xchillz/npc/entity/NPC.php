@@ -30,6 +30,54 @@ final class NPC extends Human {
     private $npcUniqueId = null;
     /** @var array<int, NPCLine> */
     private $npcLines = [];
+    private $lastCachedNameTag = "";
+
+    public function onUpdate($tick) {
+        try {
+            $rawName = $this->getRawName();
+        } catch (\RuntimeException $exception) {
+            $this->server->getLogger()->error($exception->getMessage());
+            return false;
+        }
+
+        $rawName = str_replace('{server_count}', (string)count($this->server->getOnlinePlayers()), $rawName);
+        $rawName = str_replace('{time}', date('H:i:s'), $rawName);
+        $this->setNameTag($rawName);
+        return true;
+    }
+
+    public function setNameTag($name) {
+        if ($this->lastCachedNameTag === $name) {
+            return;
+        }
+        $noPermissionPlayers = [];
+        $permissionPlayers = [];
+        foreach ($this->hasSpawned as $player) {
+            if ($player->hasPermission('npc.see.id')) {
+                $permissionPlayers[] = $player;
+            } else {
+                $noPermissionPlayers[] = $player;
+            }
+        }
+        $this->sendData($noPermissionPlayers, [
+            Entity::DATA_NAMETAG => [Entity::DATA_TYPE_STRING, $name]
+        ]);
+        $this->sendData($permissionPlayers, [
+            Entity::DATA_NAMETAG => [
+                Entity::DATA_TYPE_STRING, 
+                $name . " §7(Id: §f" . $this->getNpcUniqueId() . "§7)"
+            ]
+        ]);
+        $this->lastCachedNameTag = $name;
+    }
+
+    public function getRawName(): string {
+        if (!$this->namedtag->offsetExists('RawName')) {
+            $this->close();
+            throw new \RuntimeException("NPC is missing 'RawName' NBT tag and has been removed.");            
+        }
+        return strval($this->namedtag->offsetGet('RawName'));
+    }
 
     public function attack($damage, EntityDamageEvent $source) {
         if (!($source instanceof EntityDamageByEntityEvent)) {
@@ -118,7 +166,7 @@ final class NPC extends Human {
         if ($player->hasPermission('npc.see.id')) {
             $pk->metadata[Entity::DATA_NAMETAG] = [
                 Entity::DATA_TYPE_STRING, 
-                $this->getNameTag() . " (§e" . $this->getNpcUniqueId() . "§r)"
+                $this->getNameTag() . " §7(Id: §f" . $this->getNpcUniqueId() . ")"
             ];
         }
 
@@ -205,6 +253,7 @@ final class NPC extends Human {
             $index = count($this->npcLines) - 1;
             $npcLine = $this->npcLines[$index];
             $this->namedtag->offsetSet('CustomName', new StringTag('CustomName', $newText));
+            $this->namedtag->offsetSet('RawName', new StringTag('RawName', $newText));
             $this->setNameTag($newText);
             $this->despawnFromAll();
             $this->spawnToAll();
@@ -229,6 +278,7 @@ final class NPC extends Human {
 
         $npcLine = $this->npcLines[$index];
         $npcLine->namedtag->offsetSet('CustomName', new StringTag('CustomName', $newText));
+        $npcLine->namedtag->offsetSet('RawName', new StringTag('RawName', $newText));
         $npcLine->setNameTag($newText);
         $npcLine->despawnFromAll();
         $npcLine->spawnToAll();
@@ -250,6 +300,7 @@ final class NPC extends Human {
             $index = count($this->npcLines) - 1;
             $npcLine = $this->npcLines[$index];
             $this->namedtag->offsetSet('CustomName', new StringTag('CustomName', $npcLine->getNameTag()));
+            $this->namedtag->offsetSet('RawName', new StringTag('RawName', $npcLine->getRawName()));
             $this->setNameTag($npcLine->getNameTag());
             $this->despawnFromAll();
             $this->spawnToAll();
