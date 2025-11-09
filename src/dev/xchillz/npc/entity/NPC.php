@@ -39,11 +39,15 @@ final class NPC extends Human {
             $this->server->getLogger()->error($exception->getMessage());
             return false;
         }
+        
+        static $search = ['{server_count}', '{world_count}', '{time}'];
+        $replace = [
+            count($this->server->getOnlinePlayers()),
+            $this->getWorldPlayersCount(),
+            date('H:i:s'),
+        ];
 
-        $rawName = str_replace('{server_count}', (string)count($this->server->getOnlinePlayers()), $rawName);
-        $rawName = str_replace('{world_count}', (string)$this->getWorldPlayersCount(), $rawName);
-        $rawName = str_replace('{time}', date('H:i:s'), $rawName);
-        $this->setNameTag($rawName);
+        $this->setNameTag(str_replace($search, $replace, $rawName));
         return true;
     }
 

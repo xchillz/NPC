@@ -31,10 +31,14 @@ final class NPCLine extends Human {
             return false;
         }
 
-        $rawName = str_replace('{server_count}', (string)count($this->server->getOnlinePlayers()), $rawName);
-        $rawName = str_replace('{world_count}', (string)$this->npcOwner->getWorldPlayersCount(), $rawName);
-        $rawName = str_replace('{time}', date('H:i:s'), $rawName);
-        $this->setNameTag($rawName);
+        static $search = ['{server_count}', '{world_count}', '{time}'];
+        $replace = [
+            count($this->server->getOnlinePlayers()),
+            $this->npcOwner->getWorldPlayersCount(),
+            date('H:i:s'),
+        ];
+
+        $this->setNameTag(str_replace($search, $replace, $rawName));
         return true;
     }
 
